@@ -1,0 +1,17 @@
+<?php
+
+namespace Actinity\Actinite\Core\Events;
+
+use Illuminate\Foundation\Events\Dispatchable;
+
+class NodeDeleted
+{
+    use Dispatchable;
+
+    public $nodeId;
+
+    public function __construct(int $nodeId)
+    {
+        $this->nodeId = $nodeId;
+    }
+}

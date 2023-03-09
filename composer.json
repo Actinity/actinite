@@ -1,0 +1,40 @@
+{
+  "name": "actinity/actinite",
+  "type": "package",
+  "description": "Actinite CMS",
+  "require": {
+    "php": "^8.1",
+    "ext-fileinfo": "*",
+    "ext-json": "*",
+    "wa72/htmlpagedom": "^2.0"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^7.22"
+  },
+  "autoload": {
+    "psr-4": {
+      "Actinity\\Actinite\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Actinity\\Actinite\\ActiniteServiceProvider"
+      ]
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
