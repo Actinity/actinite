@@ -1,0 +1,28 @@
+// Body
+$body-bg: #fff;
+
+// Typography
+$font-family-sans-serif: 'Open Sans', sans-serif;
+$font-size-base: 1.6rem;
+$line-height-base: 1.8;
+
+$font-family-headings: "Montserrat", sans-serif;
+
+$container-max-widths: (
+    xs: 100%,
+    xxl: 1140px
+);
+
+$green: #0A838A;
+$pink: #2f76d6;
+$blue: #24CCD6;
+$yellow: #D6BA0F;
+
+$border-radius: 0;
+
+
+$primary: $green;
+$secondary: $pink;
+
+$dark: #444;
+$light: #999;

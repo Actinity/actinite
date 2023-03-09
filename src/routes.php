@@ -7,6 +7,7 @@ use Actinity\Actinite\Http\Controllers\AssetController;
 use Actinity\Actinite\Http\Controllers\ImageController;
 use Actinity\Actinite\Http\Controllers\UserController;
 use Actinity\Actinite\Http\Controllers\PublishController;
+use Actinity\Actinite\Http\Controllers\ResourceController;
 
 Route::prefix('actinite')->group(function() {
 
@@ -22,6 +23,12 @@ Route::prefix('actinite')->group(function() {
     ])->group(function() {
 
         Route::get('logout',[UserController::class,'logout']);
+
+		Route::prefix('resources')->group(function() {
+			Route::get('app.css',[ResourceController::class, 'css']);
+			Route::get('app.js',[ResourceController::class, 'js']);
+			Route::get('tinymce/{plugin}',[ResourceController::class,'tinymce']);
+		});
 
         Route::prefix('api')->group(function() {
 

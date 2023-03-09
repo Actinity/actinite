@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "npm run development",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "prod": "npm run production",
+    "production": "mix --production"
+  },
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.1.5",
+    "axios": "^0.21",
+    "laravel-mix": "^6.0.6",
+    "lodash": "^4.17.19",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.35.1",
+    "sass-loader": "^12.1.0",
+    "vue-loader": "^16.3.1"
+  },
+  "dependencies": {
+    "@tinymce/tinymce-vue": "^5.0",
+    "@vuepic/vue-datepicker": "^3.6.8",
+    "bootstrap": "^4.6.0",
+    "json-logic-js": "^2.0.2",
+    "mitt": "^3.0.0",
+    "vue": "^3.1.5",
+    "vue-router": "4.0.10",
+    "vuedraggable": "^4.1.0",
+    "vuex": "^4.0.2"
+  }
+}
