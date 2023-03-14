@@ -55,7 +55,7 @@
                 </select>
             </div>
             <div class="col-4 col-form-label" v-if="node.page_template">
-                <a :href="'/'+node.path" target="_blank">Open</a>
+                <a :href="'/actinite/switch-mode/draft?return_to='+node.path" target="_blank">Open</a>
             </div>
         </div>
 
