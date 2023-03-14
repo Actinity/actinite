@@ -1,7 +1,6 @@
 <?php
 namespace Actinity\Actinite\Commands;
 
-use Actinity\Actinite\Services\TreeService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 

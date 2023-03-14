@@ -3,6 +3,7 @@ namespace Actinity\Actinite\Http\Controllers;
 
 use Actinity\Actinite\Core\Events\NodeUnpublished;
 use Actinity\Actinite\Core\Node;
+use Actinity\Actinite\Jobs\RebuildTree;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,7 @@ class PublishController
             Artisan::call('actinite:publish-one '.$id);
         }
 
-        dispatch(new \Actinite\Jobs\RebuildTree(true));
+        dispatch(new RebuildTree(true));
 
         return Node::whereIn('id',$request->nodes)
             ->select('id','published_at','current_sha','published_sha')
@@ -43,7 +44,7 @@ class PublishController
         Artisan::call('actinite:publish');
         session()->forget('actinite:draft');
 
-        dispatch(new \Actinite\Jobs\RebuildTree(true));
+        dispatch(new RebuildTree(true));
 
         return redirect($request->return_to ?: '/');
     }
