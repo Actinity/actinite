@@ -86,7 +86,8 @@ export default {
                 media_poster: false,
                 external_plugins: {
                     acimage: '/actinite/resources/tinymce/acimage'
-                }
+                },
+                paste_as_text: true
             }
         }
     },
