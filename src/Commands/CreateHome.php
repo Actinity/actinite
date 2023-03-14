@@ -2,7 +2,6 @@
 namespace Actinity\Actinite\Commands;
 
 use Actinity\Actinite\Core\Node;
-use Actinity\Actinite\Core\Types\Page;
 use Illuminate\Console\Command;
 
 class CreateHome
@@ -23,7 +22,7 @@ class CreateHome
 
 		$node = new Node();
 		$node->name = 'Home';
-		$node->type = Page::class;
+		$node->type = 'App\Nodes\Page';
 		$node->slug = '';
 		$node->path = '';
 		$node->page_template = 'simple';

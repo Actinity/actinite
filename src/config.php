@@ -14,7 +14,6 @@ return [
 	'types' => [
 		\Actinity\Actinite\Core\Types\Folder::class,
 		\Actinity\Actinite\Core\Types\NodeList::class,
-		\Actinity\Actinite\Core\Types\Page::class,
 		\Actinity\Actinite\Core\Types\PostArchive::class,
 		\Actinity\Actinite\Core\Types\Url::class,
 	],

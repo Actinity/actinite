@@ -1,5 +1,5 @@
 <?php
-namespace Actinity\Actinite\Core\Types;
+namespace App\Nodes;
 
 use Actinity\Actinite\Core\Node;
 

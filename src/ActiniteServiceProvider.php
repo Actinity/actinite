@@ -39,6 +39,11 @@ class ActiniteServiceProvider
         $this->loadViewsFrom(__DIR__."/views", 'actinite');
 		$this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
+		$this->publishes([
+			__DIR__.'/config.php' => config_path('actinite.php'),
+			__DIR__.'/../resources/stubs/Nodes' => app_path('Nodes'),
+		],'actinite');
+
         app()->singleton('AssetProvider',function() {
             return new AssetProvider();
         });
