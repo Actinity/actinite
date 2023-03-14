@@ -17,7 +17,7 @@ class RebuildTree implements ShouldQueue
 
     private $published;
     private $root;
-    private $left = 0;
+    private $left;
 
     /**
      * Create a new job instance.
@@ -26,7 +26,7 @@ class RebuildTree implements ShouldQueue
      */
     public function __construct(bool $published = false, $root = null, $left = 0)
     {
-        $this->published = false;
+        $this->published = $published;
         $this->root = $root;
         $this->left = $left;
     }
