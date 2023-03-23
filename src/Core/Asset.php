@@ -7,6 +7,8 @@ use Ramsey\Uuid\Uuid;
 
 class Asset extends Model
 {
+	protected $table = 'ac_assets';
+
     public static function boot()
     {
         parent::boot();
