@@ -3,6 +3,7 @@ namespace Actinity\Actinite\Http\Controllers;
 
 use Actinity\Actinite\Core\Asset;
 use Actinity\Actinite\Jobs\ResizeAsset;
+use Actinity\Actinite\Services\AssetService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -49,7 +50,7 @@ class AssetController
         $asset->sha = sha1_file($file->getRealPath());
         $asset->extension = $file->getClientOriginalExtension();
         $asset->file_name = $file->getClientOriginalName();
-        $asset = \Actinite\Services\AssetService::updateFromPath($asset,$file->getRealPath());
+        $asset = AssetService::updateFromPath($asset,$file->getRealPath());
         $asset->save();
 
         $file->storePubliclyAs($asset->directory,$asset->file_name);
