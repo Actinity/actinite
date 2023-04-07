@@ -6,4 +6,8 @@ extends Node
 {
     protected $table = 'ac_published_nodes';
 
+	public function getTable()
+	{
+		return $this->table;
+	}
 }
