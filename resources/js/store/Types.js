@@ -16,7 +16,7 @@ export default {
         },
         icon: (state) => (type) => {
             let match = _.find(state.all,{type:type});
-            return match ? match.icon : 'fas fa-solar-system';
+            return match ? match.icon : 'fas fa-sitemap';
         },
         get: (state) => (type) => {
             return _.find(state.all,{type:type});
