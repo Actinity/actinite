@@ -224,7 +224,7 @@ export default {
             this.$store.commit('Editor/setTab',tab);
         },
         show(field) {
-            return this.checkFieldLogic(field) && this.checkTabLogic(field);
+            return !field.hidden && this.checkFieldLogic(field) && this.checkTabLogic(field);
         },
         checkTabLogic(field) {
             return (field.tab || 'Content') === this.tab;
