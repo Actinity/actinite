@@ -87,45 +87,62 @@ body {
 .tree-content {
   border-bottom: 1px solid #ccc;
   position: relative;
-  padding: 0.4rem 1rem 0.4rem 3ch;
+  padding: 0.4rem 1rem 0.4rem 0;
   line-height: 1.4em;
   cursor: pointer;
   user-select: none;
+  display: flex;
 
   &:hover {
     background-color: #eee;
   }
 }
-.tree-toggle {
-  position: absolute;
-  left: 0;
-  width: 2ch;
+.tree-select {
   user-select: none;
+}
+.tree-toggle {
+  //position: absolute;
+  //left: 0;
+  width: 2.5ch;
   display: inline-block;
   text-align: center;
   cursor: pointer;
+  user-select: none;
 }
 .tree-icon {
-  position: absolute;
-  left: 0;
+  //position: absolute;
+  //left: 0;
   display: inline-block;
   width: 2.5rem;
   text-align: center;
   color: #999;
+  user-select: none;
 }
 .tree-has-children {
   .tree-icon {
-    left: 2ch;
+    //left: 2ch;
   }
-  padding-left: 5ch;
+  //padding-left: 5ch;
 }
 
 .tree-selected {
   background: #ffc;
+  &:hover {
+    background: #eea;
+  }
+}
+.tree-stashed {
+  background: #dfd;
+
+  &:hover {
+    background-color: #cec;
+  }
 }
 
 .tree-info {
   display: flex;
+  user-select: none;
+  flex: 1;
 
   .tree-label {
     flex: 1;
@@ -135,6 +152,14 @@ body {
       text-decoration: none !important;
     }
   }
+}
+
+.tree-stash {
+  color: #999;
+  padding: 0 3px;
+}
+.tree-icon-stashed {
+  color: #000;
 }
 
 .tree-not-selectable .tree-info .tree-label {
@@ -226,7 +251,20 @@ body {
   }
 }
 
+.btn-bulk {
+  color: #999;
 
+  &:hover {
+    background-color: #333;
+    color: #fff;
+  }
+}
+
+.bulk-bar {
+  .btn + .btn {
+    margin-left: 1px;
+  }
+}
 
 .ac-editor {
   position: relative;
@@ -354,6 +392,7 @@ body {
   margin-bottom: 2rem;
   font-size: 2.4rem;
   font-weight: bold;
+  line-height: 1.2em;
 }
 
 .modal-buttons {

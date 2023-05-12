@@ -29,28 +29,30 @@ class NodeManager
         dispatch(new RebuildTree(false,$parent->id,$parent->lft));
     }
 
-    public static function move(int $nodeId, int $parentId)
+    public static function move(array $nodeIds, int $parentId)
     {
-        if($nodeId === $parentId) {
-            return; // Can't be its own parent
+        if(in_array($parentId,$nodeIds)) {
+            return; // A node can't be its own parent
         }
 
-        $node = NodeFactory::get($nodeId);
+		foreach($nodeIds as $nodeId) {
+			$node = NodeFactory::get($nodeId);
 
-        if($node->parent_id === $parentId) {
-            return;
-        }
+			if($node->parent_id === $parentId) {
+				continue;
+			}
 
-        $parent = NodeFactory::get($parentId);
+			$parent = NodeFactory::get($parentId);
 
-        if(!in_array($node->type,$parent->childTypes())) {
-            throw new \Exception('Target does not allow that node type here');
-        }
+			if(!in_array($node->type,$parent->childTypes())) {
+				throw new \Exception('Target does not allow that node type here');
+			}
 
-        $node->parent_id = $parentId;
-        $node->ordering = $parent->children->max('ordering') + 1;
+			$node->parent_id = $parentId;
+			$node->ordering = $parent->children->max('ordering') + 1;
+			$node->save();
+		}
 
-        $node->save();
 
         dispatch_sync(new RebuildTree());
     }

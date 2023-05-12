@@ -23,6 +23,7 @@ export default {
     props: {
         root: { type: Number },
         selected: { default: [] },
+        stashed: { default: [] },
         editable: { type: Boolean, default: false },
         unrestricted: { type: Boolean, default: false },
         pagesOnly: { type: Boolean, default: false },
@@ -30,7 +31,8 @@ export default {
         branchable: { type: Boolean, default: false },
         allowsChildren: { default: null },
         cannotSelect: { default: null },
-        alreadyOpen: { default: [] }
+        alreadyOpen: { default: [] },
+        stashMode: { type: Boolean, default: false }
     },
     data() {
         return {
@@ -106,9 +108,11 @@ export default {
             unrestricted: this.unrestricted,
             pagesOnly: this.pagesOnly,
             selectedNodes: computed(() => this.selectedNodes),
+            stashedNodeIds: computed(() => this.stashed),
             editable: this.editable,
             onlyAllowsChildren: this.allowsChildren,
-            cannotSelect: this.cannotSelect || []
+            cannotSelect: this.cannotSelect || [],
+            stashMode: computed(() => this.stashMode)
         }
     },
     inject: [

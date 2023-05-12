@@ -1,6 +1,6 @@
 <template>
     <modal ref="modal" :auto-close="!moving" :prevent-close="moving" width="600px">
-        <div class="modal-title">Move {{ node.name }}</div>
+        <div class="modal-title">Move {{ title }}</div>
         <div v-if="moving">
             Hold tight, this will take a minute...
             <div class="ellipser"></div>
@@ -23,7 +23,7 @@
                 @select="selectParent($event)"
                 :selectable="parentTypes"
                 :selected="selected"
-                :cannot-select="cannotSelect"
+                :cannot-select="unSelectable"
             />
 
         </div>
@@ -36,28 +36,45 @@ import Tree from "./Tree.vue";
 export default {
     data() {
         return {
-            node: null,
+            nodes: [],
             selected: [],
             moving: true
         }
     },
     computed: {
-        parentTypes() {
-            return this.$store.getters['Types/allowingChildren'](this.node.type).map(t => t.type);
+        title() {
+            if(this.nodes.length === 1) {
+                return this.nodes[0].name;
+            }
+            return this.nodes.length + ' nodes';
         },
-        cannotSelect() {
-            return [
-                this.node.id,
-                this.node.parent_id
-            ];
+        parentTypes() {
+            let types = _.intersection(this.nodes.map(n => n.type));
+            return this.$store.getters['Types/allowingChildren'](types).map(t => t.type);
+        },
+        parents() {
+            return _.uniq(this.nodes.map(n => n.parent_id));
+        },
+        singleParent() {
+            return this.parents.length === 1;
+        },
+        unSelectable() {
+            if(this.singleParent) {
+                return [
+                    this.nodes[0].id,
+                    this.nodes[0].parent_id
+                ];
+            }
+
+            return this.nodes.map(n => n.id);
         },
         targetName() {
             return this.selected.length ? this.$store.getters['Tree/byId'](this.selected[0]).name : 'Choose...';
         }
     },
     methods: {
-        open(node) {
-            this.node = node;
+        open(nodes) {
+            this.nodes = nodes;
             this.selected = [];
             this.moving = false;
             this.$refs.modal.open();
@@ -67,17 +84,25 @@ export default {
                 return;
             }
             this.moving = true;
-            let oldParent = 0 + this.node.parent_id, parentId = this.selected[0];
-            axios.post(`/actinite/api/move-node?node=${this.node.id}&parent=${parentId}`)
+            let targetId = this.selected[0],
+                toRefresh = [
+                    ...this.parents,
+                    targetId
+                ];
+
+            axios.post(`/actinite/api/move-node`,{
+                nodes: this.nodes.map(n => n.id),
+                parent: targetId
+            })
                 .then(r => {
-                    // Tree will need to reload the old parent, and the new one
+                    // Reload the affected parents
+                    toRefresh.forEach(parentId => {
+                        this.$store.dispatch('Tree/load',parentId);
+                    });
 
-                    this.$store.dispatch('Tree/load',oldParent);
-                    this.$store.dispatch('Tree/load',parentId);
-
-                    // No need to update the editor as it doesn't manage parent information
-
+                    this.$store.commit('Editor/clearStashedNodes');
                     this.$refs.modal.forceClose();
+                    this.$emit('complete');
                 })
                 .catch(e => {
                     this.moving = false;

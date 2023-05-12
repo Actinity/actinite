@@ -10,9 +10,14 @@ export default {
         tab: 'Content',
         related: [],
         loading: false,
-        openNewNodesAutomatically: true
+        openNewNodesAutomatically: true,
+        stashedNodes: [],
+        softSelected: null
     },
     getters: {
+        stashedNodes(state) {
+            return state.stashedNodes;
+        },
         loading(state) {
             return state.loading;
         },
@@ -122,9 +127,44 @@ export default {
         },
         setIsOpen(state,value) {
             state.isOpen = value;
+        },
+        clearStashedNodes(state) {
+            state.stashedNodes = [];
+        },
+        stashNode(state,node) {
+            if(_.findIndex(state.stashedNodes,{id:node.id}) === -1) {
+                state.stashedNodes = [...state.stashedNodes,node];
+            }
+        },
+        setSoftSelected(state,node) {
+            state.softSelected = node;
+        },
+        unstashNode(state,node) {
+            state.stashedNodes = state.stashedNodes.filter(n => n.id !== node.id);
         }
     },
     actions: {
+        stashSoftSelected({commit,state}) {
+            if(state.softSelected) {
+                commit('stashNode',state.softSelected);
+            }
+        },
+        unstashSoftSelected({commit,state}) {
+            if(state.softSelected) {
+                commit('unstashNode',state.softSelected);
+            }
+        },
+        stashNode({commit,state},node) {
+            commit('stashNode',node);
+        },
+        toggleStashedNode({commit,state},node) {
+            let idx = state.stashedNodes.findIndex(n => n.id === node.id);
+            if(~idx) {
+                commit('unstashNode',node);
+            } else {
+                commit('stashNode',node);
+            }
+        },
         saveIfDirty({getters,dispatch}) {
             if(getters.node && getters.isDirty) {
                 dispatch('save');

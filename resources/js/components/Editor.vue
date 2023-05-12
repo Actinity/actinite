@@ -3,15 +3,21 @@
 
         <div class="ac-browser-pane" ref="browserPane">
 
-            <div class="ac-editor-tabs">
+            <div class="ac-editor-tabs" v-if="node">
                 <a
-                    v-for="(label,key) in tabs"
                     href="#"
                     class="ac-editor-tab"
-                    :class="{'ac-editor-tab-selected':tab === key}"
-                    @click.prevent="changeTab(key)"
-                    v-text="label"
-                />
+                    :class="{'ac-editor-tab-selected':tab === 'tree'}"
+                    @click.prevent="changeTab('tree')"
+                >Tree</a>
+
+                <a
+                    href="#"
+                    class="ac-editor-tab"
+                    :class="{'ac-editor-tab-selected':tab === 'related'}"
+                    @click.prevent="changeTab('tree')"
+                >Related</a>
+
             </div>
 
             <related
@@ -26,7 +32,15 @@
                 @select="go"
                 :editable="true"
                 :selected="selectedNodes"
+                :stashed="stashedNodeIds"
+                :stash-mode="stashMode"
             ></tree>
+
+            <stash
+                v-show="tab === 'stash'"
+                @move="moveStashedNodes"
+                @empty="tab = 'tree'"
+            ></stash>
         </div>
 
         <div class="ac-editor-pane" v-if="$store.getters['Editor/node']" ref="editorPane">
@@ -39,7 +53,27 @@
         <asset-browser></asset-browser>
         <linker></linker>
         <add-node ref="addNode"></add-node>
-        <move-node ref="mover"></move-node>
+        <move-node ref="mover" @complete="stashMode = false"></move-node>
+
+        <teleport to="#ac_footer_left">
+            <div v-if="stashMode" class="bulk-bar">
+                <button class="btn btn-secondary" @click="toggleStashMode">
+                    <i class="fas fa-check-square"></i>
+                    {{ stashedCount }} selected
+                </button>
+
+                <button class="btn btn-secondary" @click="moveStashedNodes" :disabled="!stashedCount">Move</button>
+            </div>
+
+
+            <button class="btn btn-bulk" @click="toggleStashMode" v-else>
+                <i class="fas fa-square"></i>
+                Select
+            </button>
+
+
+        </teleport>
+
 
     </div>
 </template>
@@ -51,6 +85,7 @@ import Related from "./Related";
 import Linker from "./Linker";
 import AddNode from "./Tree/AddNode.vue";
 import MoveNode from "./Tree/MoveNode.vue";
+import Stash from "./Stash.vue";
 export default {
     beforeRouteUpdate(to,from) {
         if(!this.dirty || confirm('Are you sure? Changes will be lost.')) {
@@ -66,6 +101,7 @@ export default {
     data() {
         return {
             tab: 'tree',
+            stashMode: false,
             tabs: {
                 tree: 'Tree',
                 related: 'Related'
@@ -91,10 +127,20 @@ export default {
             this.edit(this.$route.params.id);
         }
 
+        this.$mitt.on('key:plus',() => {
+            this.$store.dispatch('Editor/stashSoftSelected');
+        });
+        this.$mitt.on('key:minus',() => {
+            this.$store.dispatch('Editor/unstashSoftSelected');
+        });
+
     },
     computed: {
         selectedNodes() {
             return [this.$store.getters['Editor/nodeId']];
+        },
+        stashedNodeIds() {
+            return this.$store.getters['Editor/stashedNodes'].map(n => n.id);
         },
         dirty() {
             return this.$store.getters['Editor/nodeId'] && this.$store.getters['Editor/isDirty'];
@@ -104,9 +150,16 @@ export default {
         },
         node() {
             return this.$store.getters['Editor/node'];
+        },
+        stashedCount() {
+            return this.$store.getters['Editor/stashedNodes'].length;
         }
     },
     methods: {
+        toggleStashMode() {
+            this.$store.commit('Editor/clearStashedNodes');
+            this.stashMode = !this.stashMode;
+        },
         closeEditor() {
             this.$store.commit('Editor/close');
             this.$router.push('/admin/editor');
@@ -137,7 +190,10 @@ export default {
             this.$refs.addNode.open(options);
         },
         move(node) {
-            this.$refs.mover.open(node);
+            this.$refs.mover.open([node]);
+        },
+        moveStashedNodes() {
+            this.$refs.mover.open(this.$store.getters['Editor/stashedNodes']);
         }
     },
     provide() {
@@ -146,6 +202,7 @@ export default {
         }
     },
     components: {
+        Stash,
         Linker,
         Related,
         AssetBrowser,

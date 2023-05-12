@@ -4,9 +4,14 @@
         <span v-for="spacer in spacers" class="tree-spacer"></span>
         <div class="tree-body">
 
+            <!--
+                @contextmenu.prevent="toggleStash"
+            -->
+
             <div
                 class="tree-content"
-                @mouseleave="menuIsOpen=false"
+                @mouseenter="mouseEnter"
+                @mouseleave="mouseLeave"
                 @click="menuIsOpen=false"
                 :class="{
                     'tree-selected': ~selectedNodes.indexOf(node.id),
@@ -19,6 +24,13 @@
                 <div class="tree-toggle" @click="toggle">
                     <i class="fas fa-caret-down" v-if="isOpen"></i>
                     <i class="fas fa-caret-right" v-else-if="hasChildren"></i>
+                </div>
+
+                <div class="tree-stash" @click="toggleStash" v-if="stashMode">
+                    <i class="fas fa-check-square tree-icon-stashed" v-if="nodeIsStashed"></i>
+                    <i class="far fa-minus-square" v-else-if="hasStashedChildren"></i>
+                    <i class="far fa-check-square" v-else-if="hasStashedParent"></i>
+                    <i class="far fa-square" v-else></i>
                 </div>
 
                 <div class="tree-icon"><i :class="icon"></i></div>
@@ -90,6 +102,13 @@
                                     Move
                                 </div>
                             </div>
+
+                            <div class="tree-tool" @click="stash">
+                                <i class="fas fa-hand-pointer tree-tool-icon"></i>
+                                <div class="tree-tool-label">
+                                    Select
+                                </div>
+                            </div>
                             <div class="tree-tool" v-if="canTrash" @click="trash(node)">
                                 <i class="fas fa-trash tree-tool-icon"></i>
                                 <div class="tree-tool-label">
@@ -139,6 +158,28 @@ export default {
         }
     },
     computed: {
+        nodeIsStashed() {
+            return ~this.$store.getters['Editor/stashedNodes'].map(n => n.id).indexOf(this.node.id);
+        },
+        hasStashedChildren() {
+            if(!this.hasChildren) {
+                return false;
+            }
+            for (const n of this.$store.getters['Editor/stashedNodes']) {
+                if(n.lft > this.node.lft && n.rgt < this.node.rgt) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        hasStashedParent() {
+            for (const n of this.$store.getters['Editor/stashedNodes']) {
+                if(n.lft < this.node.lft && n.rgt > this.node.rgt) {
+                    return true;
+                }
+            }
+            return false;
+        },
         isAnArchive() {
             return !!~this.$store.getters['Types/archives'].indexOf(this.node.type);
         },
@@ -155,7 +196,7 @@ export default {
             return !this.forcedOrder && this.node && !this.isRoot;
         },
         canTrash() {
-            return !this.node.published_sha && this.node.parent_id && !this.isRoot;
+            return this.node.parent_id && !this.isRoot;
         },
         canAddChildren() {
             return this.node && this.$store.getters['Types/branchable'](this.node.type);
@@ -194,6 +235,12 @@ export default {
         }
     },
     methods: {
+        toggleStash() {
+            this.$store.dispatch('Editor/toggleStashedNode',this.node);
+        },
+        stash() {
+            this.$store.dispatch('Editor/stashNode',this.node);
+        },
         setFocus(node) {
             this.$store.commit('Tree/focus',node);
             this.$store.dispatch('Tree/load',node.id);
@@ -256,9 +303,14 @@ export default {
         'unrestricted',
         'pagesOnly',
         'selectedNodes',
+        'stashedNodeIds',
         'editable',
-        'editor'
+        'editor',
+        'stashMode'
     ]
 
 }
+</script>
+
+<script setup>
 </script>

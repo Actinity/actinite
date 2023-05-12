@@ -19,11 +19,12 @@ class NodeController
     public function move(Request $request)
     {
         $this->validate($request,[
-            'node' => 'required|int',
+            'nodes' => 'required|array',
+			'nodes.*' => 'required|int',
             'parent' => 'required|int',
         ]);
 
-        NodeManager::move($request->node,$request->parent);
+        NodeManager::move($request->nodes,$request->parent);
 
         return ['success' => true];
     }
