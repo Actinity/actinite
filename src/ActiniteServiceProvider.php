@@ -8,6 +8,7 @@ use Actinity\Actinite\Commands\PublishOnSchedule;
 use Actinity\Actinite\Commands\PurgeCache;
 use Actinity\Actinite\Commands\RebuildTree;
 use Actinity\Actinite\Core\Node;
+use Actinity\Actinite\Core\NodeFactory;
 use Actinity\Actinite\Observers\NodeObserver;
 use Actinity\Actinite\Services\AssetProvider;
 use Illuminate\Console\Scheduling\Schedule;
@@ -47,6 +48,10 @@ class ActiniteServiceProvider
         app()->singleton('AssetProvider',function() {
             return new AssetProvider();
         });
+
+		app()->bind('Actinite',function() {
+			return new NodeFactory();
+		});
 
         Node::observe(NodeObserver::class);
 
