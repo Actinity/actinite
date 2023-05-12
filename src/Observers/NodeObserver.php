@@ -9,9 +9,7 @@ use Actinity\Actinite\Core\Node;
 use Actinity\Actinite\Core\NodeFactory;
 use Actinity\Actinite\Jobs\UpdateChildOrder;
 use Actinity\Actinite\Services\AssetService;
-use App\Jobs\DeleteFromAlgolia;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class NodeObserver
 {
@@ -96,7 +94,6 @@ class NodeObserver
 
     public function deleted(Node $node)
     {
-        dispatch(new DeleteFromAlgolia($node->id));
         dispatch(new UpdateChildOrder(NodeFactory::get($node->parent_id)));
 
         event(new NodeDeleted($node->id));
