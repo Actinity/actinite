@@ -52,6 +52,8 @@ Route::prefix('actinite')->group(function() {
             Route::get('assets/{asset}', [AssetController::class, 'show']);
             Route::post('assets', [AssetController::class, 'upload']);
 
+			Route::put('assets/{asset}', [AssetController::class,'update']);
+
             Route::get('users', [UserController::class,'index']);
             Route::get('users/me', [UserController::class, 'me']);
             Route::get('users/{user}', [UserController::class, 'show']);

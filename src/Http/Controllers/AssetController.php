@@ -60,4 +60,16 @@ class AssetController
 
         return $asset;
     }
+
+	public function update(Asset $asset,Request $request)
+	{
+		if($request->has('pos_x') && $request->has('pos_y')) {
+			$asset->pos_x = $request->get('pos_x');
+			$asset->pos_y = $request->get('pos_y');
+		}
+
+		$asset->save();
+
+		return $asset;
+	}
 }
