@@ -44,12 +44,11 @@
 
 
         <div v-if="selectedModel" class="asset-selected" ref="preview">
-
-            <img
+            <image-preview
                 v-if="selectedModel && type === 'image'"
-                style="max-width:100%;height: auto;max-height:200px"
-                :src="$store.getters.assetPath(selectedModel.path)"
-            />
+                :asset="selectedModel"
+                @update="updateSelected($event)"
+            ></image-preview>
 
             <dl>
                 <dt>Name</dt>
@@ -57,10 +56,8 @@
                 <dt>Size</dt>
                 <dd>{{ $filters.fileSize(selectedModel.size) }}</dd>
                 <template v-if="selectedModel.width">
-                    <dt>Width</dt>
-                    <dd>{{ selectedModel.width }}px</dd>
-                    <dt>Height</dt>
-                    <dd>{{ selectedModel.height }}px</dd>
+                    <dt>Dimensions</dt>
+                    <dd>{{ selectedModel.width }}px x {{ selectedModel.height}}px</dd>
                 </template>
                 <template v-if="selectedModel.duration">
                     <dt>Duration</dt>
@@ -95,12 +92,18 @@ import PaginationWrapper from "./Ui/Pagination/PaginationWrapper";
 import Paginator from "./Ui/Pagination/Paginator";
 import PaginationStats from "./Ui/Pagination/PaginationStats";
 import FileUpload from "./Ui/FileUpload";
+import ImagePreview from "./Assets/ImagePreview.vue";
 export default {
     mounted() {
         this.$mitt.on('assets:open',(e) => {
             this.callback = e.callback;
             this.type = e.type;
-            this.selected = e.asset;
+            if(e.selected) {
+                this.selected = e.selected.getAttribute('data-ac-asset') || null;
+            }
+            if(e.asset) {
+                this.selected = e.asset;
+            }
             this.open();
         });
     },
@@ -143,6 +146,7 @@ export default {
         },
         save() {
             this.callback(this.selectedModel ? this.selectedModel : null);
+            this.$store.commit('Assets/merge',[this.selectedModel]);
             this.$refs.modal.close();
         },
         select(asset) {
@@ -158,12 +162,18 @@ export default {
             this.loadModel();
         },
         loadModel() {
-            if(this.selected && _.isString(this.selected) && this.selected.match(/^\/assets/)) {
-                let selectedId = this.selected.split('/')[2];
-                axios.get('/actinite/api/assets/'+selectedId)
+            if(this.selected) {
+                axios.get('/actinite/api/assets/'+this.selected)
                     .then(r => {
                         this.selectedModel = r.data;
                     });
+            }
+        },
+        updateSelected(asset) {
+            this.selectedModel = asset;
+            let idx = this.assets.findIndex(a => a.id === asset.id);
+            if(~idx) {
+                this.assets.splice(idx,1,asset);
             }
         },
         load() {
@@ -190,6 +200,7 @@ export default {
         }
     },
     components: {
+        ImagePreview,
         FileUpload,
         PaginationStats,
         Paginator,

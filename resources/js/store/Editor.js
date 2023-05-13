@@ -92,7 +92,7 @@ export default {
                 external_plugins: {
                     acimage: '/actinite/resources/tinymce/acimage'
                 },
-                paste_as_text: true
+                //paste_as_text: true
             }
         }
     },
@@ -183,6 +183,7 @@ export default {
                     commit('setRelated',r.data.ac_related);
                     commit('setLoading',false);
                     commit('Tree/update',r.data,{root:true});
+                    commit('Assets/merge',r.data.assets,{root:true});
                 });
         },
         save({getters,commit}) {

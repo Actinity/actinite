@@ -1,8 +1,8 @@
 <template>
     <div>
-        <template v-if="localValue">
-            <audio :src="$store.getters.assetPath(localValue)" v-if="localValue" controls />
-            <div>{{ fileName }}
+        <template v-if="asset">
+            <audio :src="$store.getters.assetPath(asset.path)" controls />
+            <div>{{ asset.file_name }}
             <a href="#" @click.prevent="edit">Change</a>
             </div>
         </template>
@@ -23,13 +23,13 @@ export default {
                 type: 'audio'
             })
         },
-        edited(payload) {
-            this.localValue = payload ? payload.path : null;
+        edited(asset) {
+            this.localValue = asset ? asset.id : null;
         }
     },
     computed: {
-        fileName() {
-            return this.localValue ? this.localValue.split('/').pop() : '';
+        asset() {
+            return this.localValue ? this.$store.getters['Assets/asset'](this.localValue) : null;
         },
         localValue: {
             get() {

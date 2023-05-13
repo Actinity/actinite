@@ -55,12 +55,7 @@ class AssetService
         foreach(TypeService::fields($node->type) as $field) {
             if(in_array($field['type'],['image','audio','video','file'])) {
                 if($value = $node->data->{$field['name']}) {
-                    if(is_int($value)) {
-                        $assets[] = $value;
-                    }
-                    if(preg_match("!^/assets/([0-9]+)/!",$value,$matches)) {
-                        $assets[] = (int) $matches[1];
-                    }
+					$assets[] = $value;
                 }
             }
             if($field['type'] === 'html') {

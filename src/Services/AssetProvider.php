@@ -8,34 +8,35 @@ class AssetProvider
     protected $loaded = [];
     protected $queued = [];
 
-    public function queue(array $ids)
+    public function queue(array $ids): void
     {
         $this->queued = array_unique(array_merge($this->queued,$ids));
     }
 
-    public function loadQueue()
-    {
-        $toLoad = array_diff($this->queued,array_keys($this->loaded));
-        if(count($toLoad)) {
-            $assets = Asset::whereIn('id',$toLoad)->get();
-            foreach($assets as $asset) {
-                $this->loaded[$asset->id] = $asset;
-            }
-        }
+	public function getLoaded(): array
+	{
+		return $this->loaded;
+	}
 
+    public function loadQueue(): void
+    {
+		$this->load($this->queued);
         $this->queued = [];
     }
 
-    public function load(array $ids)
+    public function load(array $ids): void
     {
-
+		$toLoad = array_diff($ids,array_keys($this->loaded));
+		if(count($toLoad)) {
+			$assets = Asset::whereIn('id',$toLoad)->get();
+			foreach($assets as $asset) {
+				$this->loaded[$asset->id] = $asset;
+			}
+		}
     }
 
-    public function get(string $id)
+    public function get(string $id): ?Asset
     {
-        if(preg_match('!^/assets/([0-9]+)/!',$id,$matches)) {
-            $id = $matches[1];
-        }
         if(!($this->loaded[$id] ?? false)) {
             $this->loaded[$id] = Asset::find($id) ?: new Asset();
         }

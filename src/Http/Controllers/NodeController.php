@@ -1,7 +1,9 @@
 <?php
 namespace Actinity\Actinite\Http\Controllers;
 
+use Actinity\Actinite\Core\Asset;
 use Actinity\Actinite\Core\NodeFactory;
+use Actinity\Actinite\Services\AssetProvider;
 use Actinity\Actinite\Services\NodeManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -95,6 +97,8 @@ class NodeController
 
         $response['ac_related'] = $related;
         $response['ac_relations'] = $relations;
+
+		$response['assets'] = Asset::whereIn('id',$node->asset_cache)->get();
 
         return $response;
     }
