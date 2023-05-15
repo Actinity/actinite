@@ -18,7 +18,6 @@ return new class extends Migration
 			$table->string('type');
 			$table->string('sha');
 			$table->string('uuid');
-			$table->string('path')->nullable();
 			$table->string('file_name');
 			$table->char('extension',20);
 			$table->string('mime');
