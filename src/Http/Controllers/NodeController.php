@@ -3,11 +3,9 @@ namespace Actinity\Actinite\Http\Controllers;
 
 use Actinity\Actinite\Core\Asset;
 use Actinity\Actinite\Core\NodeFactory;
-use Actinity\Actinite\Services\AssetProvider;
 use Actinity\Actinite\Services\NodeManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class NodeController
