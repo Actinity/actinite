@@ -22,7 +22,7 @@ export default {
     ],
     mounted() {
         this.$store.commit('Auth/setUser',this.user);
-        this.$store.commit('setAssetRoot',this.assetRoot);
+        this.$store.commit('Assets/setRoot',this.assetRoot);
         this.$store.dispatch('Types/load');
         this.$store.commit('Tree/setSiteRoots',this.roots);
 

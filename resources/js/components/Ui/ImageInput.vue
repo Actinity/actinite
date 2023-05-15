@@ -30,7 +30,7 @@ export default {
                 let asset = this.$store.getters['Assets/asset'](this.localValue);
 
                 if(asset) {
-                    return this.$store.getters.assetPath(asset.path);
+                    return this.$store.getters['Assets/path'](asset);
                 }
             }
 

@@ -1,7 +1,7 @@
 <template>
     <div>
         <template v-if="asset">
-            <audio :src="$store.getters.assetPath(asset.path)" controls />
+            <audio :src="$store.getters['Assets/path'](asset)" controls />
             <div>{{ asset.file_name }}
             <a href="#" @click.prevent="edit">Change</a>
             </div>

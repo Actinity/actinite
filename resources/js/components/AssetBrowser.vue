@@ -29,7 +29,7 @@
                     <img
                         v-if="asset.type === 'image'"
                         style="max-width:100%;height: auto;max-height:200px"
-                        :src="$store.getters.assetPath(asset.path)"
+                        :src="$store.getters['Assets/path'](asset,450)"
                     />
 
                     <i class="fas fa-headphones asset-icon"

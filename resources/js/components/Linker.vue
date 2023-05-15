@@ -136,7 +136,7 @@ export default {
             this.save();
         },
         select(file) {
-            this.url = this.$store.getters.assetPath(file.path);
+            this.url = this.$store.getters['Assets/path'](file);
             this.meta.title = file.file_name;
             this.save();
         },

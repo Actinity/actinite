@@ -56,7 +56,7 @@ export default {
             return this.focalX !== null && this.focalY !== null;
         },
         assetUrl() {
-            return this.$store.getters.assetPath(this.asset.path);
+            return this.$store.getters['Assets/path'](this.asset);
         },
         previewStyle() {
             return {
