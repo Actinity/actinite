@@ -36,4 +36,10 @@ return [
             'field' => 'interviewee_id',
         ]*/
     ],
+
+	'image_sizes' => [
+		300,
+		600,
+		1200,
+	],
 ];

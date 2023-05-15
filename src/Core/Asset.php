@@ -9,6 +9,14 @@ class Asset extends Model
 {
 	protected $table = 'ac_assets';
 
+	protected $casts = [
+		'sizes' => 'array',
+	];
+
+	protected $attributes = [
+		'sizes' => '[]',
+	];
+
     public static function boot()
     {
         parent::boot();

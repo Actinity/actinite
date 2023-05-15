@@ -43,9 +43,6 @@ class AssetController
 
         $file = $request->file('file');
 
-        $mime = $file->getClientMimeType();
-        $slice = substr($mime,0,5);
-
         $asset = new Asset();
         $asset->sha = sha1_file($file->getRealPath());
         $asset->extension = $file->getClientOriginalExtension();
@@ -55,8 +52,7 @@ class AssetController
 
         $file->storePubliclyAs($asset->directory,$asset->file_name);
 
-        dispatch_sync(new ResizeAsset($asset,450));
-        dispatch(new ResizeAsset($asset,600));
+		AssetService::generateThumbnails($asset);
 
         return $asset;
     }

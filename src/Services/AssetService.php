@@ -3,6 +3,7 @@ namespace Actinity\Actinite\Services;
 
 use Actinity\Actinite\Core\Node;
 use Actinity\Actinite\Core\Asset;
+use Actinity\Actinite\Jobs\ResizeAsset;
 
 class AssetService
 {
@@ -66,5 +67,32 @@ class AssetService
         $assets = array_map(fn ($id) => (int) $id,$assets);
         return array_unique($assets);
     }
+
+	public static function generateThumbnails(Asset $asset, bool $forceQueue = false): void
+	{
+		if($asset->type !== 'image') {
+			return;
+		}
+
+		$default = new ResizeAsset($asset,450);
+
+		$sizes = [];
+
+		if($forceQueue) {
+			dispatch($default);
+		} else {
+			dispatch_sync($default);
+		}
+
+		foreach(config('actinite.image_sizes') as $width) {
+			if($width <= $asset->width) {
+				dispatch(new ResizeAsset($asset,$width));
+				$sizes[] = $width;
+			}
+		}
+
+		$asset->sizes = $sizes;
+		$asset->save();
+	}
 
 }

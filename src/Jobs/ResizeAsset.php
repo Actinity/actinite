@@ -42,8 +42,8 @@ class ResizeAsset implements ShouldQueue
         });
 
         Storage::put(
-            $this->asset->directory.'/'.$this->width.'.jpg',
-            $img->encode('png')->getEncoded(),
+            $this->asset->directory.'/t/'.$this->width.'.webp',
+            $img->encode('webp')->getEncoded(),
             'public'
         );
     }
