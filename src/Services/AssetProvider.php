@@ -26,7 +26,7 @@ class AssetProvider
 
     public function load(array $ids): void
     {
-		$toLoad = array_diff($ids,array_keys($this->loaded));
+		$toLoad = array_values(array_diff($ids,array_keys($this->loaded)));
 		if(count($toLoad)) {
 			$assets = Asset::whereIn('id',$toLoad)->get();
 			foreach($assets as $asset) {
@@ -35,8 +35,9 @@ class AssetProvider
 		}
     }
 
-    public function get(string $id): ?Asset
+    public function get($id): ?Asset
     {
+		$id = (int) $id;
         if(!($this->loaded[$id] ?? false)) {
             $this->loaded[$id] = Asset::find($id) ?: new Asset();
         }
