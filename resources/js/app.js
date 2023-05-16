@@ -31,13 +31,13 @@ app.config.globalProperties.$mitt = $mitt;
 app.config.globalProperties.$filters = {
 	fileSize(fileSizeInBytes) {
 		let i = -1;
-		let byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+		let byteUnits = ['kB', 'MB', 'GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
 		do {
 			fileSizeInBytes /= 1024;
 			i++;
 		} while (fileSizeInBytes > 1024);
 
-		return Math.max(fileSizeInBytes, 0.1).toFixed(i > 0 ? 1 : 0) + byteUnits[i];
+		return Math.max(fileSizeInBytes, 0.1).toFixed(i > 0 && fileSizeInBytes !== parseInt(fileSizeInBytes) ? 1 : 0) + byteUnits[i];
 	},
 	unslug(str) {
 		return str.slice(0,1).toUpperCase() + str.slice(1).replaceAll('-',' ');

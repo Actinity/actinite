@@ -38,7 +38,7 @@ class AssetController
     public function upload(Request $request)
     {
         $this->validate($request,[
-            'file' => 'required|file|max:8192'
+            'file' => 'required|file|max:'.AssetService::getMaxUploadSize(),
         ]);
 
         $file = $request->file('file');

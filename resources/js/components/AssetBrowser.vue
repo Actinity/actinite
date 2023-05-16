@@ -4,7 +4,7 @@
 
     <div class="row mb-5">
         <div class="col-4">
-            <h3>Images</h3>
+            <h3>{{ type === 'audio' ? 'Audio files' : 'Images' }}</h3>
         </div>
         <div class="col-5">
             <input
@@ -75,7 +75,7 @@
     <div class="modal-footer modal-footer-row">
         <div class="row">
             <div class="col-3">
-                <file-upload @upload="uploaded"></file-upload>
+                <file-upload @upload="uploaded" :accept="type === 'audio' ? '.mp3,.m4a' : 'image/*'"></file-upload>
             </div>
             <div class="col-9 d-flex justify-content-end">
                 <pagination-stats class="mx-3"></pagination-stats>

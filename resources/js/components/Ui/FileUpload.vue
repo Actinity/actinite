@@ -1,7 +1,7 @@
 <template>
 
     <label class="btn btn-primary file-upload">
-        <input type="file" ref="input" @change="upload" />
+        <input type="file" ref="input" @change="upload" :accept="acceptValue" />
         <i class="fas fa-upload"></i> Upload
     </label>
 
@@ -9,6 +9,14 @@
 </template>
 <script>
 export default {
+    props: [
+        'accept'
+    ],
+    computed: {
+        acceptValue() {
+            return this.accept || '*.*';
+        }
+    },
     methods: {
         reset() {
             this.$refs.input.value = null;
@@ -17,8 +25,8 @@ export default {
             let file = event.target.files[0], fd = new FormData();
             fd.append('file',file);
 
-            if(file.size >= 8192000) {
-                alert('Sorry, you can only currently upload files smaller than 8MB');
+            if(file.size >= this.$store.getters['Assets/maxUploadSize']) {
+                alert('Sorry, you can only currently upload files smaller than ' + this.$filters.fileSize(this.$store.getters['Assets/maxUploadSize']));
                 this.reset();
                 return;
             }

@@ -2,9 +2,13 @@ export default {
 	namespaced: true,
 	state: {
 		root: '/storage',
+		maxUploadSize: -1,
 		assets: {}
 	},
 	getters: {
+		maxUploadSize(state) {
+			return state.maxUploadSize;
+		},
 		asset: (state) => (id) => {
 			return state.assets['a'+id] || null;
 		},
@@ -18,6 +22,9 @@ export default {
 		}
 	},
 	mutations: {
+		setMaxUploadSize(state,size) {
+			state.maxUploadSize = size;
+		},
 		setRoot(state,rootPath) {
 			state.root = rootPath;
 		},

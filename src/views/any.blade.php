@@ -14,6 +14,7 @@
     <actinite
         :user="{{ json_encode(auth()->user()) }}"
         asset-root="{{ config('app.asset_url') }}"
+        max-upload-size="{{ \Actinity\Actinite\Services\AssetService::getMaxUploadSize() }}"
         :roots="{{ json_encode(\Actinity\Actinite\Services\TreeService::rootIds()) }}"
     ></actinite>
 
