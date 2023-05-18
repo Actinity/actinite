@@ -25,7 +25,7 @@ class AssetController
             $query->where('file_name','like','%'.$request->search.'%');
         }
 
-        $query->orderBy('updated_at','desc');
+        $query->orderBy('created_at','desc');
 
         return $query->paginate(50);
     }
