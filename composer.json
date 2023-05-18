@@ -9,7 +9,8 @@
     "wa72/htmlpagedom": "^3.0"
   },
   "require-dev": {
-    "orchestra/testbench": "^7.22"
+    "orchestra/testbench": "^7.22",
+    "phpunit/phpunit": "^9.6"
   },
   "autoload": {
     "psr-4": {
@@ -21,6 +22,7 @@
   },
   "autoload-dev": {
     "psr-4": {
+      "Tests\\": "tests/"
     }
   },
   "extra": {
