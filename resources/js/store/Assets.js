@@ -12,13 +12,19 @@ export default {
 		asset: (state) => (id) => {
 			return state.assets['a'+id] || null;
 		},
-		path: (state) => (asset,width) => {
+		path: (state) => (asset, maxWidth) => {
 
-			if(width) {
-				return state.root + '/assets/'+asset.id+'/'+asset.sha+'/t/'+width+'.webp';
+			let path = state.root + asset.path;
+
+			if(maxWidth && asset.width > maxWidth) {
+				asset.sizes.forEach(width => {
+					if(width <= maxWidth) {
+						path = state.root + '/assets/'+asset.id+'/'+asset.sha+'/t/'+width+'.webp';
+					}
+				});
 			}
 
-			return state.root + asset.path;
+			return path;
 		}
 	},
 	mutations: {

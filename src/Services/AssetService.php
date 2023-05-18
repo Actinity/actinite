@@ -74,24 +74,27 @@ class AssetService
 			return;
 		}
 
-		$default = new ResizeAsset($asset,450);
-
+		$jobs = [new ResizeAsset($asset,450)];
 		$sizes = [];
-
-		if($forceQueue) {
-			dispatch($default);
-		} else {
-			dispatch_sync($default);
-		}
 
 		foreach(config('actinite.image_sizes') as $width) {
 			if($width <= $asset->width) {
-				dispatch(new ResizeAsset($asset,$width));
+				$jobs[] = new ResizeAsset($asset,$width);
 				$sizes[] = $width;
 			}
 		}
 
-		$asset->sizes = $sizes;
+		foreach($jobs as $job) {
+			if($forceQueue) {
+				dispatch($job);
+			} else {
+				dispatch_sync($job);
+			}
+		}
+
+		sort($sizes);
+
+		$asset->sizes = array_unique($sizes);
 		$asset->save();
 	}
 

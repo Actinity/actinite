@@ -12,16 +12,23 @@
 	var register = function (editor) {
 		var onAction = function () {
 
-			window.$mitt.emit('assets:open',{
-				callback: (img) => {
+			let selectedId = editor.selection.getNode();
 
-					if(img) {
+			if(selectedId) {
+				selectedId = selectedId.getAttribute('data-ac-asset') || null;
+			}
+
+			window.$mitt.emit('assets:open',{
+				maxWidth: 1200,
+				callback: (asset) => {
+
+					if(asset) {
 						//let width = 800;
 						//let height = Math.round(i.height / i.width * width);
 
 						editor.insertContent('<p><img' +
-							' src="/storage'+img.path+'"' +
-							' data-ac-asset="'+img.id+'"' +
+							' src="'+asset.url+'"' +
+							' data-ac-asset="'+asset.id+'"' +
 							//' width="'+width+'"' +
 							//' height="'+height+'"' +
 							'/></p>'
@@ -30,7 +37,7 @@
 
 
 				},
-				asset: null,
+				asset: selectedId,
 				type: 'image'
 			});
 
@@ -50,7 +57,6 @@
 
 	function Plugin () {
 		global.add('acimage', function (editor) {
-			//register$1(editor);
 			register(editor);
 		});
 	}

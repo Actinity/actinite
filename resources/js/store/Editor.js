@@ -76,6 +76,8 @@ export default {
                 quickbars_selection_toolbar: 'bold italic | link unlink | h2 h3',
                 quickbars_image_toolbar: 'acimage alignleft aligncenter alignright link unlink',
                 contextmenu: 'link acimage',
+                paste_block_drop: true,
+                content_style: "img { max-width: 100%; }",
                 media_alt_source: false,
                 file_picker_callback: (callback,value,meta) => {
                     window.$mitt.emit('linker:open',{

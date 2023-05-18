@@ -98,9 +98,7 @@ export default {
         this.$mitt.on('assets:open',(e) => {
             this.callback = e.callback;
             this.type = e.type;
-            if(e.selected) {
-                this.selected = e.selected.getAttribute('data-ac-asset') || null;
-            }
+			this.maxWidth = e.maxWidth || 3000;
             if(e.asset) {
                 this.selected = e.asset;
             }
@@ -126,7 +124,8 @@ export default {
             type: null,
             assets: [],
             searchText: '',
-            callback: () => {}
+            callback: () => {},
+	        maxWidth: 3000
         }
     },
     methods: {
@@ -145,7 +144,12 @@ export default {
             this.load();
         },
         save() {
-            this.callback(this.selectedModel ? this.selectedModel : null);
+            const assetToSave = {
+                ...this.selectedModel,
+                url: this.$store.getters['Assets/path'](this.selectedModel,this.maxWidth)
+            };
+
+            this.callback(assetToSave);
             this.$store.commit('Assets/merge',[this.selectedModel]);
             this.$refs.modal.close();
         },
