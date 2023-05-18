@@ -60,6 +60,14 @@ document.addEventListener('keydown',(e) => {
 	if(e.key === 'Escape') {
 		$mitt.emit('key:escape');
 	}
+
+	if(e.key === '=') {
+		$mitt.emit('key:plus');
+	}
+	if(e.key === '-') {
+		$mitt.emit('key:minus');
+	}
+
 });
 
 app.mount('#actinite');
