@@ -4,6 +4,7 @@ namespace Actinity\Actinite\Http\Controllers;
 use Actinity\Actinite\Core\Asset;
 use Actinity\Actinite\Core\NodeFactory;
 use Actinity\Actinite\Services\NodeManager;
+use Actinity\Actinite\Services\Parser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -89,7 +90,11 @@ class NodeController
 
         $type = app($node->type);
         foreach($type->fields() as $field) {
-            $response['data'][$field['name']] = $response['data'][$field['name']] ?? null;
+			$value = $response['data'][$field['name']] ?? null;
+			if($value) {
+				$value = Parser::editing($value);
+			}
+            $response['data'][$field['name']] = $value;
         }
 
 

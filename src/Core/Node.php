@@ -3,8 +3,10 @@
 namespace Actinity\Actinite\Core;
 
 use Actinity\Actinite\Observers\NodeObserver;
+use Actinity\Actinite\Services\Parser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 
 class Node extends Model
 {
@@ -86,7 +88,8 @@ class Node extends Model
             return false;
         }
         $data = $this->data;
-        $data->$key = $value;
+		$field = Arr::first($this->fields(),fn($field) => $field['name'] === $key);
+        $data->$key = Parser::input($field,$value);
         $this->attributes['data'] = json_encode($data);
     }
 
