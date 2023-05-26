@@ -103,7 +103,7 @@
                                 </div>
                             </div>
 
-                            <div class="tree-tool" @click="stash">
+                            <div class="tree-tool" @click="stash" v-if="$store.getters.supports('bulk-ops')">
                                 <i class="fas fa-hand-pointer tree-tool-icon"></i>
                                 <div class="tree-tool-label">
                                     Select

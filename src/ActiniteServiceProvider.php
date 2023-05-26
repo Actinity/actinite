@@ -49,6 +49,15 @@ class ActiniteServiceProvider
             return new AssetProvider();
         });
 
+		config(['actinite.features' => array_filter(array_diff(
+			array_merge(
+				[],
+				explode(',',config('actinite.features_enabled'))
+			),
+			explode(',',config('actinite.features_disabled'))
+		))]);
+
+
 		app()->bind('Actinite',function() {
 			return new NodeFactory();
 		});

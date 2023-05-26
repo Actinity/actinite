@@ -56,6 +56,7 @@
         <move-node ref="mover" @complete="stashMode = false"></move-node>
 
         <teleport to="#ac_footer_left">
+	        <template v-if="$store.getters.supports('bulk-ops')">
             <div v-if="stashMode" class="bulk-bar">
                 <button class="btn btn-secondary" @click="toggleStashMode">
                     <i class="fas fa-check-square"></i>
@@ -70,6 +71,7 @@
                 <i class="fas fa-square"></i>
                 Select
             </button>
+	        </template>
 
 
         </teleport>

@@ -24,7 +24,7 @@
         />
 
     </div>
-    <div v-else class="ac-img-preview-focal-bar">
+    <div v-else-if="canSetFocalPoint" class="ac-img-preview-focal-bar">
         Focal point:
         <a href="#" @click.prevent="setFocalPoint" v-text="focalPointSet ? 'Change' : 'Set'" />
         <a href="#" @click.prevent="clearFocalPoint" v-if="focalPointSet">Clear</a>
@@ -52,6 +52,9 @@ export default {
         }
     },
     computed: {
+		canSetFocalPoint() {
+			return this.$store.getters.supports('focal-point');
+		},
         focalPointSet() {
             return this.focalX !== null && this.focalY !== null;
         },

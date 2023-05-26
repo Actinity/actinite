@@ -6,6 +6,9 @@ return [
 
     'type_cache' => env('ACTINITE_TYPE_CACHING',true),
 
+	'features_enabled' => env('ACTINITE_ENABLE',''),
+	'features_disabled' => env('ACTINITE_DISABLE',''),
+
 	/**
 	 * Specify the NodeTypes available to the application.
 	 * You can disable built-in types here.

@@ -7,6 +7,19 @@ import Auth from './Auth.js';
 import Assets from './Assets.js';
 
 export default createStore({
+    state: {
+        features: [],
+    },
+    mutations: {
+        setFeatures(state,value) {
+            state.features = value;
+        }
+    },
+    getters: {
+        supports: (state) => (feature) => {
+            return ~state.features.indexOf(feature);
+        }
+    },
     modules: {
         Types,
         Tree,

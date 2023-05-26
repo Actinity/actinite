@@ -20,6 +20,7 @@ export default {
         'assetRoot',
         'roots',
         'maxUploadSize',
+	    'features'
     ],
     mounted() {
         this.$store.commit('Auth/setUser',this.user);
@@ -27,6 +28,7 @@ export default {
         this.$store.commit('Assets/setMaxUploadSize',parseInt(this.maxUploadSize));
         this.$store.dispatch('Types/load');
         this.$store.commit('Tree/setSiteRoots',this.roots);
+		this.$store.commit('setFeatures',this.features || []);
 
         setInterval(this.keepalive,600000);
 
