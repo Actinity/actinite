@@ -147,6 +147,11 @@
                 :types="field.types"
             />
 
+	        <resizable-text
+		        v-else-if="field.type === 'textarea'"
+		        v-model="fieldData[field.name]"
+	        />
+
             <input v-else
                class="form-control"
                type="text"
@@ -177,6 +182,7 @@ import { parseISO,formatISO9075 } from 'date-fns';
 import DateInput from "./Ui/DateInput.vue";
 import NodeInput from "./Ui/NodeInput.vue";
 import RadioInput from "./Ui/RadioInput.vue";
+import ResizableText from "./Ui/ResizableText.vue";
 export default {
     computed: {
         ...mapGetters('Editor',[
@@ -250,6 +256,7 @@ export default {
         }
     },
     components: {
+	    ResizableText,
         RadioInput,
         NodeInput,
         DateInput,
