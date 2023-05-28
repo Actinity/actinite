@@ -16,12 +16,21 @@ export function snapshotNode(node, fieldData) {
         page_template: node.page_template
     }
 
-    /*for(let key in clonedData) {
-        if(clonedData.hasOwnProperty(key)) {
-            //console.log(clonedData[key]);
-            clonedData[key] = (""+clonedData[key]).replace(/\s+/,'-');
+    // When snapshotting, don't care about type differences
+    // for basics like nulls/undefineds or ints vs string ints.
+
+    Object.keys(clonedData).forEach(key => {
+        if(!clonedData[key]) {
+            clonedData[key] = null;
         }
-    }*/
+
+        if(typeof clonedData[key] !== 'number') {
+            let parsed = parseInt(clonedData[key]);
+            if(clonedData[key] === ''+parsed) {
+                clonedData[key] = parsed;
+            }
+        }
+    });
 
     return JSON.stringify([nodeData,trimObject(clonedData)]);
 }
