@@ -134,6 +134,12 @@ class NodeManager
             }
         }
 
+		if(array_key_exists('data',$data)) {
+			foreach($data['data'] as $key => $value) {
+				$new->setDataValue($key,$value);
+			}
+		}
+
         $new->save();
 
         DB::statement("update ac_nodes set rgt = rgt + 2 where id != ? and rgt >= ?",[$new->id,$updateAfter]);
