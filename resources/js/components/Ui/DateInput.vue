@@ -9,10 +9,10 @@
             closeOnAutoApply
             clearable
             input-class-name="form-control"
-            format="MMM do, yyyy"
+            :format="displayFormat"
             @open="isOpen = true"
             @closed="isOpen = false"
-            :enable-time-picker="false"
+            :enable-time-picker="showTime"
         />
     </div>
 </div>
@@ -22,7 +22,8 @@ import Datepicker from '@vuepic/vue-datepicker';
 import { parse, format } from 'date-fns';
 export default {
     props: [
-        'modelValue'
+        'modelValue',
+	    'showTime'
     ],
     data() {
         // Track whether the picker is open, so we can show a deflector to prevent
@@ -32,12 +33,18 @@ export default {
         }
     },
     computed: {
+		displayFormat() {
+			return this.showTime ? 'HH:mm MMM do, yyyy' : 'MMM do, yyyy';
+		},
+	    outputFormat() {
+			return this.showTime ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd';
+	    },
         localValue: {
             get() {
-                return this.modelValue ? parse(this.modelValue,'yyyy-MM-dd',new Date()) : null;
+                return this.modelValue ? parse(this.modelValue,this.outputFormat,new Date()) : null;
             },
             set(v) {
-                let date = v ? format(v,'yyyy-MM-dd') : null;
+                let date = v ? format(v,this.outputFormat) : null;
                 this.$emit('update:modelValue',date);
             }
         }

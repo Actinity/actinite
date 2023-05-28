@@ -108,8 +108,9 @@
             />
 
             <date-input
-                v-else-if="field.type === 'date'"
+                v-else-if="field.type === 'date' || field.type === 'datetime'"
                 v-model="fieldData[field.name]"
+                :show-time="field.type === 'datetime'"
             />
 
             <template v-else-if="field.type === 'select'">
