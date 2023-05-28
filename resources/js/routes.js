@@ -9,16 +9,16 @@ function requireAdmin(to,from,next) {
 }
 
 export default [
-    { path: '/admin', component: require('./components/Home').default },
+    { path: '/actinite', component: require('./components/Home').default },
     {
-        path: '/admin/editor',
+        path: '/actinite/editor',
         component: require('./components/Editor').default,
         children: [
             { path: ':id', component: require('./components/Editor').default }
         ]
     },
     {
-        path: '/admin/users',
+        path: '/actinite/users',
         component: require('./components/Users/UserIndex').default,
         beforeEnter: requireAdmin
     }

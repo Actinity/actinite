@@ -8,6 +8,7 @@ use Actinity\Actinite\Http\Controllers\ImageController;
 use Actinity\Actinite\Http\Controllers\UserController;
 use Actinity\Actinite\Http\Controllers\PublishController;
 use Actinity\Actinite\Http\Controllers\ResourceController;
+use Actinity\Actinite\Http\Controllers\HomeController;
 
 Route::prefix('actinite')->group(function() {
 
@@ -23,6 +24,8 @@ Route::prefix('actinite')->group(function() {
     ])->group(function() {
 
         Route::get('logout',[UserController::class,'logout']);
+
+		Route::get('/',[HomeController::class,'index']);
 
 		Route::prefix('resources')->group(function() {
 			Route::get('app.css',[ResourceController::class, 'css']);
@@ -71,6 +74,8 @@ Route::prefix('actinite')->group(function() {
 
         Route::get('publish-all',[PublishController::class,'publishAll']);
 
+		Route::get('{path}', [HomeController::class, 'index'])
+			->where('path','.*');
     });
 
 

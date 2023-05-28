@@ -17,13 +17,13 @@ export default {
             let tabs = [];
 
             if(state.user.is_admin) {
-                tabs.push({slug: '/admin', name: 'Home'});
+                tabs.push({slug: '/actinite', name: 'Home'});
             }
 
-            tabs.push({slug: '/admin/editor', name: 'Editor'});
+            tabs.push({slug: '/actinite/editor', name: 'Editor'});
 
             if(state.user.is_admin) {
-                tabs.push({slug: '/admin/users',name: 'Users'});
+                tabs.push({slug: '/actinite/users',name: 'Users'});
             }
 
             return tabs;
@@ -31,7 +31,11 @@ export default {
     },
     mutations: {
         setUser(state,data) {
-            state.user = data;
+            state.user = {
+                is_admin: false,
+                restrict_to_nodes: null,
+                ...data
+            };
         }
     }
 }

@@ -114,10 +114,10 @@ export default {
         node(is) {
             if(is) {
                 if(is.id != this.$route.params.id) {
-                    this.$router.push('/admin/editor/'+is.id);
+                    this.$router.push('/actinite/editor/'+is.id);
                 }
             } else {
-                this.$router.push('/admin/editor');
+                this.$router.push('/actinite/editor');
             }
         }
     },
@@ -164,7 +164,7 @@ export default {
         },
         closeEditor() {
             this.$store.commit('Editor/close');
-            this.$router.push('/admin/editor');
+            this.$router.push('/actinite/editor');
             this.tab = 'tree';
         },
         edit(id) {
@@ -179,9 +179,9 @@ export default {
         },
         go(id) {
             if(id) {
-                this.$router.push('/admin/editor/'+id);
+                this.$router.push('/actinite/editor/'+id);
             } else {
-                this.$router.push('/admin');
+                this.$router.push('/actinite');
             }
         },
         changeTab(tab) {

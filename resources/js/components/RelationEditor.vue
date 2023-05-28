@@ -2,7 +2,7 @@
 <div class="form-group" v-if="node">
     <label class="form-label">Related: {{ $store.getters['Types/name'](relation.related_type) }}</label>
     <div v-for="node in nodes" class="ac-related">
-        <a href="#" @click="$router.push('/admin/editor/'+node.id)">
+        <a href="#" @click="$router.push('/actinite/editor/'+node.id)">
         <i :class="$store.getters['Types/icon'](node.type)"></i>
         {{ node.name }}
 

@@ -36,7 +36,7 @@
                 <div class="tree-icon"><i :class="icon"></i></div>
 
                 <div class="tree-info">
-                    <a class="tree-label" :href="'/admin/editor/'+node.id" @click.prevent="trySelect(node)">{{ node.name }}</a>
+                    <a class="tree-label" :href="'/actinite/editor/'+node.id" @click.prevent="trySelect(node)">{{ node.name }}</a>
 
                     <div class="tree-focus" v-if="!unrestricted && focused && focused.id === node.id" @click="setFocus(null)">
                         <i class="fas fa-eye-slash"></i>

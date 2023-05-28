@@ -5,7 +5,7 @@
     |
 
     {{--@if($node ?? false)--}}
-    <a href="/admin/editor" style="color:#fff;">Editor</a>
+    <a href="/actinite/editor" style="color:#fff;">Editor</a>
     {{--@endif--}}
 
 

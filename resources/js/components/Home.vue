@@ -5,7 +5,7 @@
 export default {
     mounted() {
         if(!this.$store.getters['Auth/isAdmin']) {
-            this.$router.push('/admin/editor');
+            this.$router.push('/actinite/editor');
         }
     }
 
