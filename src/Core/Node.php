@@ -89,7 +89,9 @@ class Node extends Model
         }
         $data = $this->data;
 		$field = Arr::first($this->fields(),fn($field) => $field['name'] === $key);
-        $data->$key = Parser::input($field,$value);
+		if($field) {
+			$data->$key = Parser::input($field,$value);
+		}
         $this->attributes['data'] = json_encode($data);
     }
 
