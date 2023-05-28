@@ -42,9 +42,10 @@ export default {
             }
             return ret;
         },
-        allowingChildren: (state) => (type) => {
+        allowingChildren: (state) => (types) => {
+            types = _.isArray(types) ? types : [types];
             return state.all.filter(t => {
-                return !!~t.childTypes.indexOf(type);
+                return t.childTypes.filter(t2 => types.includes(t2)).length > 0;
             });
         }
     },
