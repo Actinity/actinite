@@ -2,9 +2,11 @@
 return [
     'mode' => 'draft',
 
+	'asset_root' => env('ASSET_URL'),
+
     'page_cache' => env('ACTINITE_PAGE_CACHE',false),
 
-    'type_cache' => env('ACTINITE_TYPE_CACHING',true),
+    'type_cache' => env('ACTINITE_TYPE_CACHING',env('APP_ENV') === 'production'),
 
 	'features_enabled' => env('ACTINITE_ENABLE',''),
 	'features_disabled' => env('ACTINITE_DISABLE',''),

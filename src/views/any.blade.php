@@ -13,7 +13,7 @@
 <div id="actinite">
     <actinite
         :user="{{ json_encode(auth()->user()) }}"
-        asset-root="{{ config('app.asset_url') }}"
+        asset-root="{{ config('actinite.asset_root') }}"
         max-upload-size="{{ \Actinity\Actinite\Services\AssetService::getMaxUploadSize() }}"
         :roots="{{ json_encode(\Actinity\Actinite\Services\TreeService::rootIds()) }}"
         :features="{{ json_encode(config('actinite.features')) }}"
