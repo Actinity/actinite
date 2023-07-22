@@ -15,7 +15,7 @@
                     href="#"
                     class="ac-editor-tab"
                     :class="{'ac-editor-tab-selected':tab === 'related'}"
-                    @click.prevent="changeTab('tree')"
+                    @click.prevent="changeTab('related')"
                 >Related</a>
 
             </div>
