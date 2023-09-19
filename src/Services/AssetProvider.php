@@ -37,6 +37,13 @@ class AssetProvider
 
     public function get($id): ?Asset
     {
+        if(!is_numeric($id)) {
+            $id = preg_match("!/([\d+]+)/!",$id,$matches);
+            if(count($matches)) {
+                $id = $matches[1];
+            }
+        }
+
 		$id = (int) $id;
         if(!($this->loaded[$id] ?? false)) {
             $this->loaded[$id] = Asset::find($id) ?: new Asset();
