@@ -6,6 +6,9 @@ export default {
 		assets: {}
 	},
 	getters: {
+		root(state) {
+			return state.root;
+		},
 		maxUploadSize(state) {
 			return state.maxUploadSize;
 		},

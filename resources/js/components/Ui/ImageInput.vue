@@ -27,11 +27,12 @@ export default {
     computed: {
         localPath() {
             if(this.localValue) {
-                let asset = this.$store.getters['Assets/asset'](this.localValue);
+				return this.$store.getters['Assets/root']+'/'+this.localValue;
+                /*let asset = this.$store.getters['Assets/asset'](this.localValue);
 
                 if(asset) {
                     return this.$store.getters['Assets/path'](asset);
-                }
+                }*/
             }
 
             return 'about:blank';
