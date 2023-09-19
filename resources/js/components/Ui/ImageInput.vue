@@ -27,7 +27,7 @@ export default {
     computed: {
         localPath() {
             if(this.localValue) {
-				return this.$store.getters['Assets/root']+'/'+this.localValue;
+				return this.$store.getters['Assets/root']+this.localValue;
                 /*let asset = this.$store.getters['Assets/asset'](this.localValue);
 
                 if(asset) {
