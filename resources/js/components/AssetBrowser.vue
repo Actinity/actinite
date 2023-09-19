@@ -97,10 +97,16 @@ export default {
     mounted() {
         this.$mitt.on('assets:open',(e) => {
             this.callback = e.callback;
+
             this.type = e.type;
 			this.maxWidth = e.maxWidth || 3000;
             if(e.asset) {
-                this.selected = e.asset;
+	            if(typeof(e.asset) === 'string') {
+					let id = e.asset.match(/\/assets\/(\d+)\//);
+					this.selected = id[1];
+	            } else {
+		            this.selected = e.asset;
+	            }
             }
             this.open();
         });

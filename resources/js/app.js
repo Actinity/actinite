@@ -19,8 +19,6 @@ let app = createApp({})
 	.use(store)
 	.use(router);
 
-app.config.unwrapInjectedRef = true;
-
 window.$mitt = mitt();
 
 app.component('actinite',require('./components/Actinite.vue').default);
