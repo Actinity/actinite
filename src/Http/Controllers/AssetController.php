@@ -2,10 +2,8 @@
 namespace Actinity\Actinite\Http\Controllers;
 
 use Actinity\Actinite\Core\Asset;
-use Actinity\Actinite\Jobs\ResizeAsset;
 use Actinity\Actinite\Services\AssetService;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 
 class AssetController
     extends Controller
