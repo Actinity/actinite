@@ -8,7 +8,7 @@
     "ext-json": "*",
     "cloudinary/cloudinary_php": "^2.12",
     "league/glide-laravel": "^1.0",
-    "vimeo/vimeo-api": "^2.0",
+    "vimeo/vimeo-api": "^3.0",
     "wa72/htmlpagedom": "^3.0"
   },
   "require-dev": {
