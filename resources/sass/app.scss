@@ -571,3 +571,28 @@ body {
     animation: 2s infinite ellipsis steps(4,end);
   }
 }
+
+
+
+
+
+.vimeo-upload-progress {
+  color: #fff;
+  position: relative;
+  width: 110px;
+}
+.vimeo-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: $secondary;
+  z-index: 1;
+}
+.vimeo-progress-label {
+  position: absolute;
+  text-align: center;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}

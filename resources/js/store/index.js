@@ -5,6 +5,7 @@ import Tree from './Tree.js';
 import Editor from './Editor.js';
 import Auth from './Auth.js';
 import Assets from './Assets.js';
+import Vimeo from './Vimeo.js';
 
 export default createStore({
     state: {
@@ -25,6 +26,7 @@ export default createStore({
         Tree,
         Editor,
         Auth,
-        Assets
+        Assets,
+        Vimeo
     }
 })

@@ -9,6 +9,7 @@ use Actinity\Actinite\Http\Controllers\UserController;
 use Actinity\Actinite\Http\Controllers\PublishController;
 use Actinity\Actinite\Http\Controllers\ResourceController;
 use Actinity\Actinite\Http\Controllers\HomeController;
+use Actinity\Actinite\Http\Controllers\VimeoController;
 
 Route::prefix('actinite')->group(function() {
 
@@ -56,6 +57,8 @@ Route::prefix('actinite')->group(function() {
             Route::post('assets', [AssetController::class, 'upload']);
 
 			Route::put('assets/{asset}', [AssetController::class,'update']);
+
+            Route::post('/vimeo',[VimeoController::class,'upload']);
 
             Route::get('users', [UserController::class,'index']);
             Route::get('users/me', [UserController::class, 'me']);

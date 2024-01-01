@@ -102,6 +102,11 @@
                 v-model="fieldData[field.name]"
             ></html-input>
 
+	        <video-input
+		        v-else-if="field.type === 'video'"
+		        v-model="fieldData[field.name]"
+	        />
+
             <boolean-input
                 v-else-if="field.type === 'boolean'"
                 v-model="fieldData[field.name]"
@@ -164,6 +169,9 @@
     </template>
 
     <teleport to="#ac_footer_right">
+
+		<vimeo-progress></vimeo-progress>
+
         <!--<div v-text="isDirty ? 'DIRTY!' : 'Status: Published'"></div>-->
         <button class="btn btn-primary" :disabled="!isDirty" @click="save">Save changes</button>
     </teleport>
@@ -183,6 +191,8 @@ import DateInput from "./Ui/DateInput.vue";
 import NodeInput from "./Ui/NodeInput.vue";
 import RadioInput from "./Ui/RadioInput.vue";
 import ResizableText from "./Ui/ResizableText.vue";
+import VideoInput from "./Ui/VideoInput.vue";
+import VimeoProgress from "./Ui/VimeoProgress.vue";
 export default {
     computed: {
         ...mapGetters('Editor',[
@@ -256,6 +266,8 @@ export default {
         }
     },
     components: {
+	    VimeoProgress,
+	    VideoInput,
 	    ResizableText,
         RadioInput,
         NodeInput,
