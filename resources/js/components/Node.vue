@@ -94,7 +94,11 @@
         class="form-group"
         :class="{'row': field.inline && false}"
     >
-        <div class="form-label" :class="{'col-form-label col-3':field.inline && false}">{{ field.label }} <!--- {{ field.type }}--></div>
+        <div class="form-label" :class="{'col-form-label col-3':field.inline && false}">
+	        {{ field.label }} <!--- {{ field.type }}-->
+	        <span v-if="field.instructions" class="text-muted d-inline-block pl-2" style="font-weight:normal;">{{ field.instructions }}</span>
+
+        </div>
 
         <div :style="fieldStyle(field)" :class="{'col-9':field.inline && false}">
             <html-input
