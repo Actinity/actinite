@@ -8,6 +8,7 @@
 </div>
 </template>
 <script>
+
 export default {
     props: [
         'modelValue',
@@ -16,27 +17,24 @@ export default {
         edit() {
             this.$mitt.emit('assets:open',{
                 callback: this.edited,
-                asset: this.localValue,
+                asset: this.isCustomUrl ? null : this.localValue,
                 type: 'image'
             });
         },
         edited(asset) {
-            this.localValue = asset ? asset.id : null;
+            this.localValue = asset ? 'cloudinary://'+asset.uuid : null;
         }
     },
     computed: {
+		isCustomUrl() {
+			return this.localValue && this.localValue.match(/^https?/);
+		},
         localPath() {
             if(this.localValue) {
-				return this.$store.getters['Assets/root']+this.localValue;
-                /*let asset = this.$store.getters['Assets/asset'](this.localValue);
-
-                if(asset) {
-                    return this.$store.getters['Assets/path'](asset);
-                }*/
+				return this.$store.getters['Assets/url'](this.localValue);
             }
 
             return 'about:blank';
-
         },
         localValue: {
             get() {

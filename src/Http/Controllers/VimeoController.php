@@ -1,11 +1,17 @@
 <?php
 namespace Actinity\Actinite\Http\Controllers;
 
+use Actinity\Actinite\Services\VimeoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class VimeoController extends Controller
 {
+    public function thumbnail($id)
+    {
+        return VimeoService::api()->request('/videos/'.$id.'?fields=status,pictures')['body'];
+    }
+
     public function upload(Request $request)
     {
         $this->validate($request,[
@@ -13,17 +19,7 @@ class VimeoController extends Controller
             'name' => 'required|string'
         ]);
 
-        if(!config('services.vimeo.id')) {
-            throw new \Exception('Vimeo is not configured');
-        }
-
-        $api = new \Vimeo\Vimeo(
-            config('services.vimeo.id'),
-            config('services.vimeo.secret'),
-            config('services.vimeo.token')
-        );
-
-        $response = $api->request('/me/videos',[
+        $response = VimeoService::api()->request('/me/videos',[
             'name' => $request->get('name'),
             'upload' => ['approach' => 'tus','size' => $request->get('size')],
             'embed' => [

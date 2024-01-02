@@ -59,7 +59,7 @@ export default {
             return this.focalX !== null && this.focalY !== null;
         },
         assetUrl() {
-            return this.$store.getters['Assets/path'](this.asset);
+            return this.$store.getters['Assets/url']('cloudinary://'+this.asset.uuid);
         },
         previewStyle() {
             return {

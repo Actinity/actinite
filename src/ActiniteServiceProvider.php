@@ -11,6 +11,7 @@ use Actinity\Actinite\Core\Node;
 use Actinity\Actinite\Core\NodeFactory;
 use Actinity\Actinite\Observers\NodeObserver;
 use Actinity\Actinite\Services\AssetProvider;
+use Cloudinary\Configuration\Configuration;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -21,7 +22,11 @@ class ActiniteServiceProvider
 
     public function register()
     {
-
+        // Set up Cloudinary
+        Configuration::instance(['cloud_name' => config('services.cloudinary.name'),
+            'api_key' => config('services.cloudinary.key'),
+            'api_secret' => config('services.cloudinary.secret'),
+        ]);
     }
 
     public function boot()

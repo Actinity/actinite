@@ -3,6 +3,7 @@ namespace Actinity\Actinite\Http\Controllers;
 
 use Actinity\Actinite\Core\Asset;
 use Actinity\Actinite\Services\AssetService;
+use Cloudinary\Api\Upload\UploadApi;
 use Illuminate\Http\Request;
 
 class AssetController
@@ -27,9 +28,9 @@ class AssetController
         return $query->paginate(50);
     }
 
-    public function show($asset)
+    public function show(Asset $asset)
     {
-        return Asset::find($asset);
+        return $asset;
     }
 
     public function upload(Request $request)
@@ -47,9 +48,18 @@ class AssetController
         $asset = AssetService::updateFromPath($asset,$file->getRealPath());
         $asset->save();
 
-        $file->storePubliclyAs($asset->directory,$asset->file_name);
+        if($asset->type === 'image') {
+            $api = new UploadApi();
+            $api->upload($file->getRealPath(),[
+                'public_id' => $asset->uuid,
+                'use_filename' => true,
+                'overwrite' => true
+            ]);
+        } else {
+            $file->storePubliclyAs($asset->directory,$asset->file_name);
+        }
 
-		AssetService::generateThumbnails($asset);
+		//AssetService::generateThumbnails($asset);
 
         return $asset;
     }

@@ -18,6 +18,7 @@ export default {
     props: [
         'user',
         'assetRoot',
+	    'cloudinaryName',
         'roots',
         'maxUploadSize',
 	    'features'
@@ -25,6 +26,7 @@ export default {
     mounted() {
         this.$store.commit('Auth/setUser',this.user);
         this.$store.commit('Assets/setRoot',this.assetRoot);
+		this.$store.commit('Assets/setCloudinaryName',this.cloudinaryName);
         this.$store.commit('Assets/setMaxUploadSize',parseInt(this.maxUploadSize));
         this.$store.dispatch('Types/load');
         this.$store.commit('Tree/setSiteRoots',this.roots);

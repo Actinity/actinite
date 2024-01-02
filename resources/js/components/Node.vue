@@ -109,6 +109,8 @@
 	        <video-input
 		        v-else-if="field.type === 'video'"
 		        v-model="fieldData[field.name]"
+		        :node-has-image="hasImageField"
+		        @thumbnail="setImage"
 	        />
 
             <boolean-input
@@ -207,6 +209,9 @@ export default {
         fields() {
             return this.$store.getters['Types/fields'](this.node.type);
         },
+	    hasImageField() {
+			return this.fields.filter(f => f.name === 'image').length > 0;
+	    },
         publishedAt: {
             get() {
                 return this.node.published_at ? parseISO(this.node.published_at) : null;
@@ -234,6 +239,9 @@ export default {
         }
     },
     methods: {
+		setImage(url) {
+			this.fieldData['image'] = url;
+		},
         fieldStyle(field) {
             let style = {};
             if(field.width) {

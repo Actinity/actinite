@@ -59,6 +59,7 @@ Route::prefix('actinite')->group(function() {
 			Route::put('assets/{asset}', [AssetController::class,'update']);
 
             Route::post('/vimeo',[VimeoController::class,'upload']);
+            Route::get('/vimeo/thumbnail/{id}',[VimeoController::class,'thumbnail']);
 
             Route::get('users', [UserController::class,'index']);
             Route::get('users/me', [UserController::class, 'me']);

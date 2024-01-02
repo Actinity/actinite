@@ -29,7 +29,7 @@
                     <img
                         v-if="asset.type === 'image'"
                         style="max-width:100%;height: auto;max-height:200px"
-                        :src="$store.getters['Assets/path'](asset,450)"
+                        :src="$store.getters['Assets/url']('cloudinary://'+asset.uuid)"
                     />
 
                     <i class="fas fa-headphones asset-icon"
@@ -101,9 +101,8 @@ export default {
             this.type = e.type;
 			this.maxWidth = e.maxWidth || 3000;
             if(e.asset) {
-	            if(typeof(e.asset) === 'string') {
-					let id = e.asset.match(/\/assets\/(\d+)\//);
-					this.selected = id[1];
+	            if(typeof(e.asset) === 'string' && e.asset.match(/^cloudinary:\/\//)) {
+					this.selected = e.asset.slice(13);
 	            } else {
 		            this.selected = e.asset;
 	            }
@@ -150,9 +149,15 @@ export default {
             this.load();
         },
         save() {
+			let url = null;
+
+			if(this.type === 'image') {
+				url = this.$store.getters['Assets/url']('cloudinary://'+this.selectedModel.uuid,1000,1000);
+			}
+
             const assetToSave = {
                 ...this.selectedModel,
-                url: this.$store.getters['Assets/path'](this.selectedModel,this.maxWidth)
+	            url: url
             };
 
             this.callback(assetToSave);

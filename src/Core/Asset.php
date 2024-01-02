@@ -28,6 +28,14 @@ class Asset extends Model
         });
     }
 
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if((int) $value == $value) {
+            return Asset::find($value);
+        }
+        return Asset::where('uuid',$value)->first();
+    }
+
     public function getPathAttribute()
     {
         return implode('/',[
