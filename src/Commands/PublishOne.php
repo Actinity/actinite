@@ -25,7 +25,7 @@ class PublishOne
         }
 
         $node->published_sha = $node->current_sha;
-        $node->published_at = now();
+        $node->published_at = $node->published_at ?: now();
         $node->save();
 
         $data = (array) DB::table('ac_nodes')->find($nodeId);
