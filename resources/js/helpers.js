@@ -5,7 +5,7 @@ export function trimObject(obj) {
 }
 
 export function snapshotNode(node, fieldData) {
-    let clonedData = JSON.parse(JSON.stringify(fieldData));
+    let clonedData = fieldData ? JSON.parse(JSON.stringify(fieldData)) : {};
     let nodeData = {
         name: node.name,
         slug: node.slug,

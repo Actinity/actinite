@@ -243,6 +243,7 @@ export default {
                     });
                 })
                 .catch(e => {
+                    console.log(e,e.response);
                     alert('Unable to publish');
                 });
         },
@@ -259,6 +260,7 @@ export default {
                     }
                 })
                 .catch(e => {
+                    console.log(e,e.response);
                     alert('Unable to unpublish');
                 });
         }

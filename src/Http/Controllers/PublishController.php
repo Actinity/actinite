@@ -51,7 +51,7 @@ class PublishController
 
     public function unpublish(Node $node)
     {
-        if($node->parent_id <= 1) {
+        if($node->parent_id < 1 || $node->is_protected) {
             return;
         }
 
