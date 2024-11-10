@@ -5,9 +5,6 @@
 </template>
 <script>
 export default {
-    props: [
-        'ref'
-    ],
     methods: {
         update(data) {
             this.pagination_data.current_page = data.current_page;

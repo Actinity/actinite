@@ -3,6 +3,7 @@ namespace Actinity\Actinite\Http\Controllers;
 
 use Actinity\Actinite\Core\Events\NodeUnpublished;
 use Actinity\Actinite\Core\Node;
+use Actinity\Actinite\Jobs\Publish;
 use Actinity\Actinite\Jobs\RebuildTree;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -25,18 +26,18 @@ class PublishController
     public function publish(Request $request)
     {
         $this->validate($request,[
-            'nodes' => 'required|array',
+            'node' => 'required|integer',
         ]);
 
-        foreach($request->nodes as $id) {
-            Artisan::call('actinite:publish-one '.$id);
+        if($request->deep) {
+            dispatch_sync((new Publish($request->node)));
+        } else {
+            Artisan::call('actinite:publish-one '.$request->node);
+
+            dispatch(new RebuildTree(true));
         }
 
-        dispatch(new RebuildTree(true));
-
-        return Node::whereIn('id',$request->nodes)
-            ->select('id','published_at','current_sha','published_sha')
-            ->get();
+        return response()->noContent();
     }
 
     public function publishAll(Request $request)

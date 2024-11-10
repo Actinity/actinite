@@ -44,7 +44,7 @@ export default {
 			return this.$store.getters['Vimeo/uploading'];
 		},
 		videoId() {
-			let matches = this.localValue.match(/vimeo\.com\/(\d+)/);
+			let matches = this.localValue?.match(/vimeo\.com\/(\d+)/);
 			if(matches && matches.length > 0) {
 				return matches[1];
 			}

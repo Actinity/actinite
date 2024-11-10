@@ -28,19 +28,7 @@
             </div>
             <div class="col-4 col-form-label">
 
-
-                <button
-                    class="btn btn-sm btn-info mx-2"
-                    v-if="node.published_sha !== node.current_sha"
-                    @click="publish"
-                >Publish now</button>
-
-                <button
-                    class="btn btn-sm btn-dark mx-2"
-                    v-if="!node.is_protected && node.published_sha"
-                    @click.prevent="$store.dispatch('Editor/unpublish',node.id)"
-                    >Unpublish
-                </button>
+				<publishing :node="node" />
 
             </div>
         </div>
@@ -199,6 +187,7 @@ import RadioInput from "./Ui/RadioInput.vue";
 import ResizableText from "./Ui/ResizableText.vue";
 import VideoInput from "./Ui/VideoInput.vue";
 import VimeoProgress from "./Ui/VimeoProgress.vue";
+import Publishing from "./Publishing.vue";
 export default {
     computed: {
         ...mapGetters('Editor',[
@@ -272,12 +261,10 @@ export default {
         },
         update(field,e) {
             this.$store.commit('Editor/updateField',{field:field,value:e.target.value});
-        },
-        publish() {
-            this.$store.dispatch('Editor/publish',[this.node.id]);
         }
     },
     components: {
+	    Publishing,
 	    VimeoProgress,
 	    VideoInput,
 	    ResizableText,

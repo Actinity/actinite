@@ -225,22 +225,12 @@ export default {
                     });
             }
         },
-        publish({commit,getters,rootGetters},nodes) {
+        publish({commit,getters,rootGetters,dispatch},payload) {
 
-            axios.post('/actinite/api/publish',{nodes:nodes})
+            axios.post('/actinite/api/publish',{node:payload.node,deep: payload.deep || false})
                 .then(r => {
-                    r.data.forEach((payload) => {
-                        let node = rootGetters['Tree/byId'](payload.id);
-                        node.current_sha = payload.current_sha;
-                        node.published_sha = payload.published_sha;
-                        node.published_at = payload.published_at;
-
-                        commit('Tree/update',node,{root:true});
-
-                        if(getters.nodeId === node.id) {
-                            commit('set',node);
-                        }
-                    });
+                    // TODO: This should just reload the tree in place
+                    window.location.reload();
                 })
                 .catch(e => {
                     console.log(e,e.response);
