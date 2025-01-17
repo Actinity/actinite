@@ -19,11 +19,11 @@
 		<div class="modal-title">Publish {{ node.name }}</div>
 
 		<label class="d-block">
-			<input type="radio" v-model="deep" :value="true" /> Include all children
+			<input type="radio" v-model="deep" :value="false" /> Only this node
 		</label>
 
 		<label class="d-block">
-			<input type="radio" v-model="deep" :value="false" /> Only this node
+			<input type="radio" v-model="deep" :value="true" /> Include all children
 		</label>
 
 		<div class="mt-3">
@@ -42,7 +42,7 @@ export default {
 	},
 	data() {
 		return {
-			deep: true,
+			deep: false,
 			publishing: true
 		}
 	},
@@ -60,7 +60,7 @@ export default {
 				this.doPublish();
 				return;
 			}
-			this.deep = true;
+			this.deep = false;
 			this.publishing = false;
 			this.$refs.modal.open();
 		},
