@@ -11,6 +11,7 @@ use Actinity\Actinite\Core\Node;
 use Actinity\Actinite\Core\NodeFactory;
 use Actinity\Actinite\Observers\NodeObserver;
 use Actinity\Actinite\Services\AssetProvider;
+use Actinity\Actinite\AppEvents\AppEventBus;
 use Cloudinary\Configuration\Configuration;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\Gate;
@@ -66,6 +67,10 @@ class ActiniteServiceProvider
 		app()->bind('Actinite',function() {
 			return new NodeFactory();
 		});
+
+        app()->singleton('AppEvents', function () {
+            return new AppEventBus;
+        });
 
         Node::observe(NodeObserver::class);
 

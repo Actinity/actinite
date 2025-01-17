@@ -29,6 +29,11 @@ class PublishController
             'node' => 'required|integer',
         ]);
 
+        evt('publish',[
+            'deep' => $request->get('deep'),
+            'node' => $request->get('node'),
+        ]);
+
         if($request->deep) {
             dispatch_sync((new Publish($request->node)));
         } else {
@@ -45,6 +50,8 @@ class PublishController
         Artisan::call('actinite:publish');
         session()->forget('actinite:draft');
 
+        evt('publish-all');
+
         dispatch(new RebuildTree(true));
 
         return redirect($request->return_to ?: '/');
@@ -55,6 +62,8 @@ class PublishController
         if($node->parent_id < 1 || $node->is_protected) {
             return;
         }
+
+        evt('unpublish',['node' => $node->id]);
 
         DB::table('ac_published_nodes')
             ->where('id','=',$node->id)

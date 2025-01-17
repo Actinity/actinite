@@ -47,3 +47,31 @@ if (! function_exists('log_query')) {
         Log::info($query);
     }
 }
+
+if(!function_exists('evt')) {
+
+
+
+    function evt(string $type, array $data = [], $model = null)
+    {
+        $event = new \Actinity\Actinite\AppEvents\AppEvent;
+        $event->type = $type;
+        $event->data = $data;
+        $event->user_id = auth()->user() ? auth()->user()->id : null;
+        $event->server = gethostname();
+
+        if ($impersonator = session()->get('impersonator')) {
+            $event->impersonated_by = $impersonator['id'];
+        }
+
+        if ($model) {
+            $event->eventable_type = get_class($model);
+            $event->eventable_id = $model->id;
+        }
+
+        app('AppEvents')->push($event);
+
+        return $event;
+    }
+
+}
