@@ -32,7 +32,7 @@ class UpdateChildOrder implements ShouldQueue
         if(TypeService::isArchive($this->node)) {
             return;
         }
-        $this->node->child_order = $this->node->children->pluck('id')->all();
+        $this->node->child_order = collect($this->node->children)->pluck('id')->all();
         $this->node->save();
     }
 }
